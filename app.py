@@ -32,7 +32,7 @@ color: white;
         """
     st.markdown(css, unsafe_allow_html=True)
 
-set_background("img3.jpeg")
+set_background("assets/img3.jpeg")
 
 st.title("🎬 Movie Recommender")
 
