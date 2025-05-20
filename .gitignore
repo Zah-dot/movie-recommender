@@ -14,11 +14,6 @@ secrets.py
 .env
 .streamlit/secrets.toml
 
-# Dataset files (optional)
-*.csv
-
-# Large image files
-*.jpeg
 
 # OS-specific files
 .DS_Store
