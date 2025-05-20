@@ -1,0 +1,31 @@
+# Virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Secrets and environment config
+secrets.py
+.env
+.streamlit/secrets.toml
+
+# Dataset files (optional)
+*.csv
+
+# Large image files
+*.jpeg
+
+# OS-specific files
+.DS_Store
+
+# IDE/project files (optional)
+.idea/
+.vscode/
+
+# PEP 582 packages directory (optional)
+__pypackages__/
