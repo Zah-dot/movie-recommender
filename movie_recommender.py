@@ -43,9 +43,14 @@ def clean_id_column(df, id_col='id'):
     return df
 
 def load_and_process_data():
-    movie = pd.read_csv('movies_metadata.csv', low_memory=False)
-    credit = pd.read_csv('credits.csv', low_memory=False)
-    keyword = pd.read_csv('keywords.csv', low_memory=False)
+    movie_url = "https://drive.google.com/uc?id=1jLZxVKH767pZ9vtepykKeoNU1zQB6aGi"
+    credits_url = "https://drive.google.com/uc?id=1l49fqxk7pVtNWnbCffgkwwTVmSPeFXAD"
+    keywords_url = "https://drive.google.com/uc?id=1f_7Syu6n1N_L-3OIRf75tYyttrkxL-hI"
+
+
+    movie = pd.read_csv(movie_url, low_memory=False)
+    credit = pd.read_csv(credits_url, low_memory=False)
+    keyword = pd.read_csv(keywords_url, low_memory=False)
 
     movie = clean_id_column(movie)
     credit = clean_id_column(credit)
