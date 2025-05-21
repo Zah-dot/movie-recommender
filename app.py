@@ -96,5 +96,5 @@ if st.button("Recommend"):
             for i, (title, rating) in enumerate(results):
                 with cols[i % 5]:
                     poster_url = fetch_poster(title)
-                    st.image(poster_url, use_column_width=True)
+                    st.image(poster_url, use_container_width=True)
                     st.markdown(f"**{title}**  \n⭐ {rating}")
