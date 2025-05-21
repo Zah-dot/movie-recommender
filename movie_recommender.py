@@ -1,3 +1,4 @@
+import nltk
 import pandas as pd
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -11,6 +12,10 @@ import gdown
 
 WEIGHT = {'overview': 1, 'keyword': 1, 'cast': 1, 'dir': 1, 'genre': 1}
 stemmer = PorterStemmer()
+try:
+    nltk.data.find("tokenizers/punkt")
+except LookupError:
+    nltk.download("punkt")
 
 def stem_tokenizer(text):
     tokens = word_tokenize(text.lower())
