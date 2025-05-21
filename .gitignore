@@ -24,3 +24,4 @@ secrets.py
 
 # PEP 582 packages directory (optional)
 __pypackages__/
+movie-recommender.git-mirror/
