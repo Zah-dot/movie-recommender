@@ -6,6 +6,8 @@ from sklearn.metrics.pairwise import linear_kernel
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 from scipy.sparse import hstack
+import os
+import gdown
 
 WEIGHT = {'overview': 1, 'keyword': 1, 'cast': 1, 'dir': 1, 'genre': 1}
 stemmer = PorterStemmer()
@@ -43,14 +45,24 @@ def clean_id_column(df, id_col='id'):
     return df
 
 def load_and_process_data():
-    movie_url = "https://drive.google.com/uc?id=1jLZxVKH767pZ9vtepykKeoNU1zQB6aGi"
-    credits_url = "https://drive.google.com/uc?id=1l49fqxk7pVtNWnbCffgkwwTVmSPeFXAD"
-    keywords_url = "https://drive.google.com/uc?id=1f_7Syu6n1N_L-3OIRf75tYyttrkxL-hI"
+    movie_id = "1jLZxVKH767pZ9vtepykKeoNU1zQB6aGi"
+    credits_id = "1l49fqxk7pVtNWnbCffgkwwTVmSPeFXAD"
+    keywords_id = "1f_7Syu6n1N_L-3OIRf75tYyttrkxL-hI"
+    # Local cache paths
+    movie_path = "movies_metadata.csv"
+    credits_path = "credits.csv"
+    keywords_path = "keywords.csv"
+    # Download if not present
+    if not os.path.exists(movie_path):
+        gdown.download(f"https://drive.google.com/uc?id={movie_id}", movie_path, quiet=False)
+    if not os.path.exists(credits_path):
+        gdown.download(f"https://drive.google.com/uc?id={credits_id}", credits_path, quiet=False)
+    if not os.path.exists(keywords_path):
+        gdown.download(f"https://drive.google.com/uc?id={keywords_id}", keywords_path, quiet=False)
 
-
-    movie = pd.read_csv(movie_url, low_memory=False)
-    credit = pd.read_csv(credits_url, low_memory=False)
-    keyword = pd.read_csv(keywords_url, low_memory=False)
+    movie = pd.read_csv(movie_path, low_memory=False)
+    credit = pd.read_csv(credits_path, low_memory=False)
+    keyword = pd.read_csv(keywords_path, low_memory=False)
 
     movie = clean_id_column(movie)
     credit = clean_id_column(credit)
@@ -64,6 +76,7 @@ def load_and_process_data():
     movie['d'] = movie['crew'].apply(extract_director_regex).apply(lambda x: x.replace(' ', '_'))
     movie['g'] = movie['genres'].apply(extract_names_regex).apply(lambda x: ' '.join(x))
     movie['o'] = movie['overview'].fillna('').apply(lambda x: ' '.join(stem_tokenizer(x)))
+
 
     movie = movie.drop_duplicates(subset=['title', 'd'], keep='first')
     movie = movie[movie['vote_count'].fillna(0).astype(float) > 100]
