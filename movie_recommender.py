@@ -1,4 +1,5 @@
 import nltk
+nltk.data.path.append("nltk_data")
 import pandas as pd
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -12,7 +13,6 @@ import gdown
 
 try:
     nltk.data.find("tokenizers/punkt")
-    print("Punkt tokenizer found.")
 except LookupError:
     print("Punkt tokenizer NOT found. Downloading...")
     nltk.download("punkt")
