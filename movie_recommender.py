@@ -10,12 +10,16 @@ from scipy.sparse import hstack
 import os
 import gdown
 
-WEIGHT = {'overview': 1, 'keyword': 1, 'cast': 1, 'dir': 1, 'genre': 1}
-stemmer = PorterStemmer()
 try:
     nltk.data.find("tokenizers/punkt")
+    print("Punkt tokenizer found.")
 except LookupError:
+    print("Punkt tokenizer NOT found. Downloading...")
     nltk.download("punkt")
+
+
+WEIGHT = {'overview': 1, 'keyword': 1, 'cast': 1, 'dir': 1, 'genre': 1}
+stemmer = PorterStemmer()
 
 def stem_tokenizer(text):
     tokens = word_tokenize(text.lower())

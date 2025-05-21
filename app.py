@@ -36,7 +36,7 @@ set_background("assets/img3.jpeg")
 
 st.title("🎬 Movie Recommender")
 
-@st.cache_resource
+#@st.cache_resource
 def prepare_model():
     df = load_and_process_data()
     vector = vectorize_features(df)
@@ -48,7 +48,7 @@ movie_df, sim, idx_map, rev_map = prepare_model()
 
 TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 DEFAULT_POSTER_URL = "https://via.placeholder.com/300x450?text=No+Poster"
-@st.cache_data
+#@st.cache_data
 def fetch_poster(title, retries=3):
     try:
         for attempt in range(retries):
