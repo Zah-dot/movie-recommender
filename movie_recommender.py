@@ -1,29 +1,21 @@
-import nltk
-nltk.data.path.append("nltk_data")
 import pandas as pd
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import normalize
 from sklearn.metrics.pairwise import linear_kernel
 from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import RegexpTokenizer
 from scipy.sparse import hstack
 import os
 import gdown
 
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    print("Punkt tokenizer NOT found. Downloading...")
-    nltk.download("punkt")
-
-
 WEIGHT = {'overview': 1, 'keyword': 1, 'cast': 1, 'dir': 1, 'genre': 1}
 stemmer = PorterStemmer()
+tokenizer = RegexpTokenizer(r'\w+')
 
 def stem_tokenizer(text):
-    tokens = word_tokenize(text.lower())
-    return [stemmer.stem(token) for token in tokens if token.isalpha()]
+    tokens = tokenizer.tokenize(text.lower())
+    return [stemmer.stem(token) for token in tokens]
 
 def extract_names_regex(text):
     if pd.isna(text) or text.strip() == '':
@@ -85,7 +77,6 @@ def load_and_process_data():
     movie['d'] = movie['crew'].apply(extract_director_regex).apply(lambda x: x.replace(' ', '_'))
     movie['g'] = movie['genres'].apply(extract_names_regex).apply(lambda x: ' '.join(x))
     movie['o'] = movie['overview'].fillna('').apply(lambda x: ' '.join(stem_tokenizer(x)))
-
 
     movie = movie.drop_duplicates(subset=['title', 'd'], keep='first')
     movie = movie[movie['vote_count'].fillna(0).astype(float) > 100]
@@ -155,4 +146,5 @@ def get_recommendations(title, similarity_matrix, index_map, reverse_map, movie_
             vote_avg = movie_df.iloc[i]['vote_average']
             recommendations.append((movie_title, vote_avg))
 
-    return recommendations    
+    return recommendations
+    

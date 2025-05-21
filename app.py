@@ -36,7 +36,7 @@ set_background("assets/img3.jpeg")
 
 st.title("🎬 Movie Recommender")
 
-#@st.cache_resource
+@st.cache_resource
 def prepare_model():
     df = load_and_process_data()
     vector = vectorize_features(df)
